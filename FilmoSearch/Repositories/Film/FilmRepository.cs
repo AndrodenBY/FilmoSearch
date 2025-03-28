@@ -10,20 +10,20 @@ namespace FilmoSearch.Repositories.Film
 {
     public class FilmRepository : IFilmoSearchRepository<FilmDto>
     {
-        private ApplicationContext _context;
+        private readonly ApplicationContext _context;
         public FilmRepository(ApplicationContext context) { _context = context; }
 
-        public IEnumerable<FilmDto> GetAll()
+        public async Task<IEnumerable<FilmDto>> GetAllAsync()
         {
             try
             {
-                return _context.Films
+                return await _context.Films
                     .Select(film => new FilmDto(
                         film.Id,
                         film.Title,
                         film.Reviews.Select(review => new ReviewDto(review.Id, review.Title, review.Description, review.Stars, null)).ToList(),
                         film.Actors.Select(actor => new ActorDto(actor.Id, actor.FirstName, actor.LastName, null)).ToList()
-                     )).ToList();                
+                     )).ToListAsync();                
             }
             catch (Exception ex)
             {
@@ -32,11 +32,11 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public FilmDto GetById([FromBody] Guid id)
+        public async Task<FilmDto> GetByIdAsync([FromBody] Guid id)
         {
             try
             {
-                return _context.Films
+                return await _context.Films
                 .Include(a => a.Actors).Include(r => r.Reviews)
                 .Where(f => f.Id == id)
                 .Select(f => new FilmDto(
@@ -44,7 +44,7 @@ namespace FilmoSearch.Repositories.Film
                         f.Title,
                         f.Reviews.Select(review => new ReviewDto(review.Id, review.Title, review.Description, review.Stars, null)).ToList(),
                         f.Actors.Select(actor => new ActorDto(actor.Id, actor.FirstName, actor.LastName, null)).ToList()
-                )).FirstOrDefault();
+                )).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool Create(FilmDto filmToCreate)
+        public async Task<bool> CreateAsync(FilmDto filmToCreate)
         {
             Models.Film newFilm = new Models.Film
             {
@@ -76,7 +76,7 @@ namespace FilmoSearch.Repositories.Film
             try
             {
                 _context.Films.Add(newFilm);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -86,14 +86,14 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool AddActor(Guid filmId, Guid actorId)
+        public async Task<bool> AddActorAsync(Guid filmId, Guid actorId)
         {
             try
             {
-                Models.Film film = _context.Films.Include(a => a.Actors).FirstOrDefault(f => f.Id == filmId);
+                Models.Film film = await _context.Films.Include(a => a.Actors).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Actor actorToAdd = film?.Actors.FirstOrDefault(a => a.Id == actorId);
                 film?.Actors.Add(actorToAdd);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -103,14 +103,14 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool AddReview(Guid filmId, Guid reviewId)
+        public async Task<bool> AddReviewAsync(Guid filmId, Guid reviewId)
         {
             try
             {
-                Models.Film film = _context.Films.Include(x => x.Reviews).FirstOrDefault(f => f.Id == filmId);
+                Models.Film film = await _context.Films.Include(x => x.Reviews).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Review reviewToAdd = film?.Reviews.FirstOrDefault(r => r.Id == reviewId);
                 film?.Reviews.Add(reviewToAdd);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace FilmoSearch.Repositories.Film
             }
         }     
 
-        public bool Update(FilmDto filmToUpdate)
+        public async Task<bool> UpdateAsync(FilmDto filmToUpdate)
         {
             Models.Film updateFilm = new Models.Film
             {
@@ -136,7 +136,7 @@ namespace FilmoSearch.Repositories.Film
             try
             {
                 _context.Films.Update(updateFilm);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -146,14 +146,14 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool RemoveActor(Guid filmId, Guid actorId)
+        public async Task<bool> RemoveActorAsync(Guid filmId, Guid actorId)
         {
             try
             {
-                Models.Film film = _context.Films.Include(f => f.Actors).FirstOrDefault(f => f.Id == filmId);
+                Models.Film film = await _context.Films.Include(f => f.Actors).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Actor actorToRemove = film?.Actors.FirstOrDefault(a => a.Id == actorId);                
                 film?.Actors.Remove(actorToRemove);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -163,14 +163,14 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool RemoveReview(Guid filmId, Guid reviewId)
+        public async Task<bool> RemoveReviewAsync(Guid filmId, Guid reviewId)
         {
             try
             {
-                Models.Film film = _context.Films.Include(f => f.Reviews).FirstOrDefault(f => f.Id == filmId);
+                Models.Film film = await _context.Films.Include(f => f.Reviews).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Review reviewToRemove = film?.Reviews.FirstOrDefault(a => a.Id == reviewId);                
                 film?.Reviews.Remove(reviewToRemove);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -180,13 +180,13 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             try
             {
-                Models.Film filmToDelete = _context.Films.FirstOrDefault(a => a.Id == id);
+                Models.Film filmToDelete = await _context.Films.FirstOrDefaultAsync(a => a.Id == id);
                 _context.Films.Remove(filmToDelete);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)

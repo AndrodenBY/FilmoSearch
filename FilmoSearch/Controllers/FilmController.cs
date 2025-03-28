@@ -12,21 +12,21 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class FilmController : ControllerBase
     {
-        private FilmService _filmService;        
+        private readonly FilmService _filmService;        
         public FilmController(FilmService filmService) { _filmService = filmService; }
 
         [HttpGet("GetFilms")]
-        public ActionResult<IEnumerable<Film>> Get()
+        public async Task<ActionResult<IEnumerable<Film>>> GetAsync()
         {
             Log.Information("Getting all films");
-            return Ok(_filmService.GetAll());
+            return Ok(await _filmService.GetAllAsync());
         }
 
         [HttpGet("GetFilmById/{id}")]
-        public ActionResult<FilmDto> GetById([FromRoute] Guid id)
+        public async Task<ActionResult<FilmDto>> GetByIdAsync([FromRoute] Guid id)
         {
             Log.Information($"Getting film by ID: {id}");
-            FilmDto? film = _filmService.GetById(id);
+            FilmDto? film = await _filmService.GetByIdAsync(id);
             if (film != null)
             {
                 Log.Information($"Film found: {film}");
@@ -37,10 +37,10 @@ namespace FilmoSearch.Controllers
         }        
 
         [HttpPost("AddFilm")]
-        public ActionResult<FilmDto> Add(FilmDto filmToCreate)
+        public async Task<ActionResult<FilmDto>> AddAsync(FilmDto filmToCreate)
         {
             Log.Information($"AddFilm request recieved: {filmToCreate}");
-            FilmDto? film = _filmService.Create(filmToCreate);
+            FilmDto? film = await _filmService.CreateAsync(filmToCreate);
             if (film != null)
             {
                 Log.Information($"AddFilm response: {film}");
@@ -51,10 +51,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPost("AddFilmActor/{filmId}/{actorId}")]
-        public ActionResult<FilmDto> AddActor([FromRoute] Guid filmId, [FromRoute] Guid actorId)
+        public async Task<ActionResult<FilmDto>> AddActorAsync([FromRoute] Guid filmId, [FromRoute] Guid actorId)
         {
             Log.Information($"AddFilmActor request received film with ID {filmId} and actor with ID {actorId}");
-            _filmService.AddActor(filmId, actorId);
+            await _filmService.AddActorAsync(filmId, actorId);
             if (actorId != Guid.Empty)
             {
                 Log.Information($"AddFilmActor response: {actorId} added to film");
@@ -65,10 +65,10 @@ namespace FilmoSearch.Controllers
         }
         
         [HttpPost("AddFilmReview/{filmId}/{reviewId}")]
-        public ActionResult<FilmDto> AddReview([FromRoute] Guid filmId, [FromRoute] Guid reviewId)
+        public async Task<ActionResult<FilmDto>> AddReviewAsync([FromRoute] Guid filmId, [FromRoute] Guid reviewId)
         {
             Log.Information($"AddFilmReview request received film with ID {filmId} and review with ID {reviewId}");
-            _filmService.AddReview(filmId, reviewId);
+            await _filmService.AddReviewAsync(filmId, reviewId);
             if (reviewId != Guid.Empty)
             {
                 Log.Information($"AddFilmReview response: {reviewId} added to film");
@@ -79,10 +79,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPut("EditFilm")]
-        public ActionResult<FilmDto> Edit(FilmDto filmToUpdate)
+        public async Task<ActionResult<FilmDto>> EditAsync(FilmDto filmToUpdate)
         {
             Log.Information($"EditFilm request received: {filmToUpdate}");
-            FilmDto? film = _filmService.Update(filmToUpdate);
+            FilmDto? film = await _filmService.UpdateAsync(filmToUpdate);
             if(film != null)
             {
                 Log.Information($"EditFilm response: {film}");
@@ -93,28 +93,28 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpDelete("RemoveFilmActor/{filmId}/{actorId}")]
-        public ActionResult DeleteActor([FromRoute]Guid filmId, [FromRoute]Guid actorId)
+        public async Task<ActionResult> DeleteActorAsync([FromRoute]Guid filmId, [FromRoute]Guid actorId)
         {
             Log.Information($"RemoveFilmActor request received film with ID {filmId} and actor with ID {actorId}");
-            _filmService.RemoveActor(filmId, actorId);
+            await _filmService.RemoveActorAsync(filmId, actorId);
             Log.Information($"RemoveFilmActor response: {actorId} deleted from film");
             return Ok("Actor Removed");
         }
 
         [HttpDelete("RemoveFilmReview/{filmId}/{reviewId}")]
-        public ActionResult DeleteReview([FromRoute] Guid filmId, [FromRoute] Guid reviewId)
+        public async Task<ActionResult> DeleteReviewAsync([FromRoute] Guid filmId, [FromRoute] Guid reviewId)
         {
             Log.Information($"RemoveFilmReview request received film with ID {filmId} and review with ID {reviewId}");
-            _filmService.RemoveActor(filmId, reviewId);
+            await _filmService.RemoveActorAsync(filmId, reviewId);
             Log.Information($"RemoveFilmReview response: {reviewId} deleted from film");
             return Ok("Review Removed");
         }
 
         [HttpDelete("DeleteFilm")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> DeleteAsync(Guid id)
         {
             Log.Information($"DeleteFilm request received ID: {id}");
-            _filmService.Delete(id);
+            await _filmService.DeleteAsync(id);
             Log.Information($"DeleteFilm response: NoContent");
             return NoContent();
         }
