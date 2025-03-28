@@ -11,24 +11,24 @@ namespace FilmoSearch.Services.Review
         private readonly ReviewRepository _repository;
         public ReviewService(ReviewRepository repository) { _repository = repository; }
 
-        public IEnumerable<ReviewDto> GetAll()
+        public async Task<IEnumerable<ReviewDto>> GetAllAsync()
         {
-            return _repository.GetAll();
+            return await _repository.GetAllAsync();
         }
 
-        public ReviewDto GetById(Guid id)
+        public async Task<ReviewDto> GetByIdAsync(Guid id)
         {
-            ReviewDto review = _repository.GetById(id);
+            ReviewDto review = await _repository.GetByIdAsync(id);
             if (review != null)
             {
-                return _repository.GetById(id);
+                return review;
             }
             return null;
         }
 
-        public ReviewDto Create(ReviewDto reviewToCreate)
+        public async Task<ReviewDto> CreateAsync(ReviewDto reviewToCreate)
         {
-            bool isReviewCreated = _repository.Create(reviewToCreate);
+            bool isReviewCreated = await _repository.CreateAsync(reviewToCreate);
             if (isReviewCreated)
             {
                 return reviewToCreate;
@@ -36,9 +36,9 @@ namespace FilmoSearch.Services.Review
             return null;
         }
 
-        public bool AddToFilm(ReviewDto reviewToCreate, Guid filmId)
+        public async Task<bool> AddToFilmAsync(ReviewDto reviewToCreate, Guid filmId)
         {
-            bool isAddedToFilm = _repository.AddToFilm(reviewToCreate, filmId);
+            bool isAddedToFilm = await _repository.AddToFilmAsync(reviewToCreate, filmId);
             if (isAddedToFilm)
             {
                 return true;
@@ -46,9 +46,9 @@ namespace FilmoSearch.Services.Review
             return false;
         }
 
-        public ReviewDto Update(ReviewDto reviewToUpdate)
+        public async Task<ReviewDto> UpdateAsync(ReviewDto reviewToUpdate)
         {
-            bool isReviewUpdated = _repository.Update(reviewToUpdate);
+            bool isReviewUpdated = await _repository.UpdateAsync(reviewToUpdate);
             if (isReviewUpdated)
             {
                 return reviewToUpdate;
@@ -56,9 +56,9 @@ namespace FilmoSearch.Services.Review
             return null;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            bool isReviewDeleted = _repository.Delete(id);
+            bool isReviewDeleted = await _repository.DeleteAsync(id);
             if (isReviewDeleted)
             {
                 return true;

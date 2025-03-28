@@ -11,21 +11,21 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private ReviewService _reviewService;
+        private readonly ReviewService _reviewService;
         public ReviewController(ReviewService reviewService) { _reviewService = reviewService; }
 
         [HttpGet("GetReviews")]
-        public ActionResult<IEnumerable<ReviewDto>> Get()
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetAsync()
         {
             Log.Information("Getting all reviews");
-            return Ok(_reviewService.GetAll());
+            return Ok(await _reviewService.GetAllAsync());
         }
 
         [HttpGet("GetReviewById/{id}")]
-        public ActionResult<ReviewDto> GetById([FromRoute]Guid id)
+        public async Task<ActionResult<ReviewDto>> GetByIdAsync([FromRoute]Guid id)
         {
             Log.Information($"Getting film by ID {id}");
-            ReviewDto? review = _reviewService.GetById(id);
+            ReviewDto? review = await _reviewService.GetByIdAsync(id);
             if (review != null)
             {
                 Log.Information($"Review found: {review}");
@@ -36,10 +36,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPost("AddReview")]
-        public ActionResult<ReviewDto> Add(ReviewDto reviewToCreate)
+        public async Task<ActionResult<ReviewDto>> AddAsync(ReviewDto reviewToCreate)
         {
             Log.Information($"AddReview request received: {reviewToCreate}");
-            ReviewDto? review = _reviewService.Create(reviewToCreate);
+            ReviewDto? review = await _reviewService.CreateAsync(reviewToCreate);
             if (review != null)
             {
                 Log.Information($"AddReview response: {review}");
@@ -50,10 +50,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPost("AddReviewFilm/{filmId}")]
-        public ActionResult AddFilm(ReviewDto reviewToCreate, [FromRoute] Guid filmId)
+        public async Task<ActionResult> AddFilmAsync(ReviewDto reviewToCreate, [FromRoute] Guid filmId)
         {
             Log.Information($"AddReviewFilm request received review with ID {reviewToCreate.Id} and film with ID {filmId}");
-            _reviewService.AddToFilm(reviewToCreate, filmId);
+            await _reviewService.AddToFilmAsync(reviewToCreate, filmId);
             if (reviewToCreate != null)
             {
                 Log.Information($"AddReviewFilm response: {reviewToCreate.Id} added to film");
@@ -64,10 +64,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPut("EditReview")]
-        public ActionResult<ReviewDto> Edit(ReviewDto reviewToUpdate)
+        public async Task<ActionResult<ReviewDto>> EditAsync(ReviewDto reviewToUpdate)
         {
             Log.Information($"EditReview request received: {reviewToUpdate}");
-            ReviewDto? review = _reviewService.Update(reviewToUpdate);
+            ReviewDto? review = await _reviewService.UpdateAsync(reviewToUpdate);
             if (review != null)
             {
                 Log.Information($"EditReview response: {review}");
@@ -78,10 +78,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpDelete("DeleteReview")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> DeleteAsync(Guid id)
         {
             Log.Information($"DeleteReview request received: {id} ");
-            _reviewService.Delete(id);
+            await _reviewService.DeleteAsync(id);
             Log.Information("DeleteReview responce: NoContent");
             return NoContent();
         }
