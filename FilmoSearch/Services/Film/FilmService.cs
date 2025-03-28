@@ -18,7 +18,7 @@ namespace FilmoSearch.Services.Film
             FilmDto film = await _repository.GetByIdAsync(id);
             if (film != null)
             {
-                return await _repository.GetByIdAsync(id);
+                return film;
             }
             return null;
         }

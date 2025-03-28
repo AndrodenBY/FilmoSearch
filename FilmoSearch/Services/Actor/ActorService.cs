@@ -21,7 +21,7 @@ namespace FilmoSearch.Services.Actor
             ActorDto actor = await _repository.GetByIdAsync(id);
             if(actor != null)
             {
-                return await _repository.GetByIdAsync(id);
+                return actor;
             }
             return null;
         }
