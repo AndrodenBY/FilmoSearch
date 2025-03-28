@@ -13,21 +13,21 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class ActorController : ControllerBase
     {
-        private ActorService _actorService;
+        private readonly ActorService _actorService;
         public ActorController(ActorService actorService) { _actorService = actorService; }
 
         [HttpGet("GetActors")]
-        public ActionResult<IEnumerable<ActorDto>> Get()
+        public async Task<ActionResult<IEnumerable<ActorDto>>> GetAsync()
         {
             Log.Information("Getting all actors");
-            return Ok(_actorService.GetAll());
+            return Ok(await _actorService.GetAllAsync());
         }
 
         [HttpGet("GetActorById/{id}")]
-        public ActionResult<ActorDto> GetById([FromRoute] Guid id)
+        public async Task<ActionResult<ActorDto>> GetByIdAsync([FromRoute] Guid id)
         {
             Log.Information($"Getting actor by ID: {id}");
-            ActorDto? actor = _actorService.GetById(id);
+            ActorDto? actor = await _actorService.GetByIdAsync(id);
             if (actor != null)
             {
                 Log.Information($"Actor found: {actor}");
@@ -38,10 +38,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPost("AddActor")]
-        public ActionResult<ActorDto> Add(ActorDto actorToCreate)
+        public async Task<ActionResult<ActorDto>> AddAsync(ActorDto actorToCreate)
         {
             Log.Information($"AddActor request received: {actorToCreate}");
-            ActorDto? actor = _actorService.Create(actorToCreate);
+            ActorDto? actor = await _actorService.CreateAsync(actorToCreate);
             if (actor != null) 
             {
                 Log.Information($"AddActor response: {actor}");
@@ -52,10 +52,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPost("AddActorFilm/{actorId}/{filmId}")]
-        public ActionResult AddFilm([FromRoute] Guid actorId, [FromRoute] Guid filmId)
+        public async Task<ActionResult> AddFilmAsync([FromRoute] Guid actorId, [FromRoute] Guid filmId)
         {
             Log.Information($"AddActorFilm request received actor with ID {actorId} and film with ID {filmId}");
-            _actorService.AddFilm(actorId, filmId);
+            await _actorService.AddFilmAsync(actorId, filmId);
             if (filmId != Guid.Empty)
             {
                 Log.Information($"AddActorFilm response: {filmId} added to actor");
@@ -66,10 +66,10 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpPut("EditActor")]
-        public ActionResult<ActorDto> Edit(ActorDto actorToUpdate)
+        public async Task<ActionResult<ActorDto>> EditAsync(ActorDto actorToUpdate)
         {
             Log.Information($"EditActor request received: {actorToUpdate}");
-            ActorDto? actor = _actorService.Update(actorToUpdate);
+            ActorDto? actor = await _actorService.UpdateAsync(actorToUpdate);
             if (actor != null)
             {
                 Log.Information($"EditActor response: {actor}");
@@ -80,22 +80,21 @@ namespace FilmoSearch.Controllers
         }
 
         [HttpDelete("RemoveActorFilm/{actorId}/{filmId}")]
-        public ActionResult DeleteFilm([FromRoute] Guid actorId, [FromRoute] Guid filmId)
+        public async Task<ActionResult> DeleteFilmAsync([FromRoute] Guid actorId, [FromRoute] Guid filmId)
         {
             Log.Information($"RemoveActorFilm request received actor with ID {actorId} and film with ID {filmId}");
-            _actorService.RemoveFilm(actorId, filmId);
+            await _actorService.RemoveFilmAsync(actorId, filmId);
             Log.Information($"RemoveActorFilm response: {filmId} deleted from actor");
             return Ok("Film Removed");
         }
 
         [HttpDelete("DeleteActor")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> DeleteAsync(Guid id)
         {
             Log.Information($"DeleteActor request received ID: {id}");
-            _actorService.Delete(id);
+            await _actorService.DeleteAsync(id);
             Log.Information("DeleteActor response: NoContent");
             return NoContent();
-
         }
     }
 }

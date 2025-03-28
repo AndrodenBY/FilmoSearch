@@ -84,7 +84,7 @@ namespace FilmoSearch.Tests.Repositories
             _context.SaveChanges();
 
             //Act
-            IEnumerable<ActorDto> result = repository.GetAll();
+            IEnumerable<ActorDto> result = repository.GetAllAsync();
 
             //Assert
             Assert.NotNull(result);            
@@ -119,7 +119,7 @@ namespace FilmoSearch.Tests.Repositories
             ActorRepository repository = new ActorRepository(_context);
 
             // Act
-            ActorDto result = repository.GetById(actorId);
+            ActorDto result = repository.GetByIdAsync(actorId);
 
             // Assert
             Assert.NotNull(result);
@@ -149,7 +149,7 @@ namespace FilmoSearch.Tests.Repositories
             ActorRepository repository = new ActorRepository(_context);
 
             // Act
-            bool result = repository.Create(actorToCreate);
+            bool result = await repository.CreateAsync(actorToCreate);
 
             // Assert
             Assert.True(result);            
@@ -176,7 +176,7 @@ namespace FilmoSearch.Tests.Repositories
             ActorRepository repository = new ActorRepository(_context);
 
             // Act            
-            bool result = repository.AddFilm(actorId, filmId);
+            bool result = repository.AddFilmAsync(actorId, filmId);
             bool isFilmAdded = testActor.Films.Any(f => f.Id == filmId);
 
             // Assert

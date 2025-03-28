@@ -8,19 +8,19 @@ namespace FilmoSearch.Repositories.Actor
 {
     public class ActorRepository : IFilmoSearchRepository<ActorDto>
     {
-        private ApplicationContext _context;
+        private readonly ApplicationContext _context;
         public ActorRepository(ApplicationContext context) { _context = context; }
 
-        public IEnumerable<ActorDto> GetAll()
+        public async Task<IEnumerable<ActorDto>> GetAllAsync()
         {
             try
-            {                
-                return _context.Actors.Select(actor => new ActorDto(
+            {
+                return await _context.Actors.Select(actor => new ActorDto(
                     actor.Id,
                     actor.FirstName,
                     actor.LastName,
                     actor.Films.Select(film => new FilmDto(film.Id, film.Title, null, null)).ToList()
-                )).ToList();                
+                )).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -29,11 +29,11 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public ActorDto GetById(Guid id)
+        public async Task<ActorDto> GetByIdAsync(Guid id)
         {
             try
             {
-                return _context.Actors
+                return await _context.Actors
                     .Include(a => a.Films)
                     .Where(a => a.Id == id)
                     .Select(a => new ActorDto(
@@ -42,7 +42,7 @@ namespace FilmoSearch.Repositories.Actor
                         a.LastName,
                         a.Films.Select(film => new FilmDto(film.Id, film.Title, null, null)).ToList()
                     ))
-                    .FirstOrDefault();                
+                    .FirstOrDefaultAsync();                
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public bool Create(ActorDto actorToCreate)
+        public async Task<bool> CreateAsync(ActorDto actorToCreate)
         {
             Models.Actor newActor = new Models.Actor
             {
@@ -67,7 +67,7 @@ namespace FilmoSearch.Repositories.Actor
             try
             {
                 _context.Actors.Add(newActor);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -77,14 +77,14 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
         
-        public bool AddFilm(Guid actorId, Guid filmId)
+        public async Task<bool> AddFilmAsync(Guid actorId, Guid filmId)
         {
             try
             {
-                Models.Actor actor = _context.Actors.Include(f => f.Films).FirstOrDefault(a => a.Id == actorId);
+                Models.Actor actor = await _context.Actors.Include(f => f.Films).FirstOrDefaultAsync(a => a.Id == actorId);
                 Models.Film filmToAdd = actor?.Films.FirstOrDefault(f => f.Id == filmId);
                 actor?.Films.Add(filmToAdd);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch(Exception ex)
@@ -94,7 +94,7 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public bool Update(ActorDto actorToUpdate)
+        public async Task<bool> UpdateAsync(ActorDto actorToUpdate)
         {
             Models.Actor updateActor = new Models.Actor
             {
@@ -108,7 +108,7 @@ namespace FilmoSearch.Repositories.Actor
             try
             {
                 _context.Actors.Update(updateActor);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -118,14 +118,14 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public bool RemoveFilm(Guid actorId, Guid filmId)
+        public async Task<bool> RemoveFilmAsync(Guid actorId, Guid filmId)
         {
             try
             {
-                Models.Actor actor = _context.Actors.Include(f => f.Films).FirstOrDefault(a => a.Id == actorId);
+                Models.Actor actor = await _context.Actors.Include(f => f.Films).FirstOrDefaultAsync(a => a.Id == actorId);
                 Models.Film filmToRemove = actor?.Films.FirstOrDefault(f => f.Id == filmId);
                 actor?.Films.Remove(filmToRemove);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
@@ -135,13 +135,13 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             try
             {
-                Models.Actor actorToDelete = _context.Actors.FirstOrDefault(a => a.Id == id);
+                Models.Actor actorToDelete = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
                 _context.Actors.Remove(actorToDelete);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)

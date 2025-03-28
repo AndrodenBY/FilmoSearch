@@ -11,24 +11,24 @@ namespace FilmoSearch.Services.Actor
         private readonly ActorRepository _repository;
         public ActorService(ActorRepository repository) { _repository = repository; }
 
-        public IEnumerable<ActorDto> GetAll()
+        public async Task<IEnumerable<ActorDto>> GetAllAsync()
         {
-            return _repository.GetAll();
+            return await _repository.GetAllAsync();
         }
 
-        public ActorDto GetById(Guid id)
+        public async Task<ActorDto> GetByIdAsync(Guid id)
         {
-            ActorDto actor = _repository.GetById(id);
+            ActorDto actor = await _repository.GetByIdAsync(id);
             if(actor != null)
             {
-                return _repository.GetById(id);
+                return await _repository.GetByIdAsync(id);
             }
             return null;
         }
 
-        public ActorDto Create(ActorDto actorToCreate)
+        public async Task<ActorDto> CreateAsync(ActorDto actorToCreate)
         {
-            bool isActorCreated = _repository.Create(actorToCreate);
+            bool isActorCreated = await _repository.CreateAsync(actorToCreate);
             if (isActorCreated)
             {
                 return actorToCreate;
@@ -36,9 +36,9 @@ namespace FilmoSearch.Services.Actor
             return null;
         }
 
-        public bool AddFilm(Guid actorId, Guid filmId)
+        public async Task<bool> AddFilmAsync(Guid actorId, Guid filmId)
         {
-            bool isFilmAdded = _repository.AddFilm(actorId, filmId);
+            bool isFilmAdded = await _repository.AddFilmAsync(actorId, filmId);
             if (isFilmAdded)
             {
                 return true;
@@ -46,9 +46,9 @@ namespace FilmoSearch.Services.Actor
             return false;
         }
 
-        public ActorDto Update(ActorDto actorToUpdate)
+        public async Task<ActorDto> UpdateAsync(ActorDto actorToUpdate)
         {
-            bool isActorUpdated = _repository.Update(actorToUpdate);
+            bool isActorUpdated = await _repository.UpdateAsync(actorToUpdate);
             if (isActorUpdated)
             {
                 return actorToUpdate;
@@ -56,9 +56,9 @@ namespace FilmoSearch.Services.Actor
             return null;
         }
 
-        public bool RemoveFilm(Guid actorId, Guid filmId)
+        public async Task<bool> RemoveFilmAsync(Guid actorId, Guid filmId)
         {
-            bool isFilmDeleted = _repository.RemoveFilm(actorId, filmId);
+            bool isFilmDeleted = await _repository.RemoveFilmAsync(actorId, filmId);
             if (isFilmDeleted)
             {
                 return true;
@@ -66,9 +66,9 @@ namespace FilmoSearch.Services.Actor
             return false;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {            
-            bool isActorDeleted = _repository.Delete(id);
+            bool isActorDeleted = await _repository.DeleteAsync(id);
             if (isActorDeleted)
             {
                 return true;
