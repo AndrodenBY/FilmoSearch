@@ -18,42 +18,22 @@ namespace FilmoSearch.Services.Actor
 
         public async Task<ActorDto> GetByIdAsync(Guid id)
         {
-            ActorDto actor = await _repository.GetByIdAsync(id);
-            if(actor != null)
-            {
-                return actor;
-            }
-            return null;
+            return await _repository.GetByIdAsync(id);
         }
 
         public async Task<ActorDto> CreateAsync(ActorDto actorToCreate)
         {
-            bool isActorCreated = await _repository.CreateAsync(actorToCreate);
-            if (isActorCreated)
-            {
-                return actorToCreate;
-            }
-            return null;
+            return await _repository.CreateAsync(actorToCreate) ? actorToCreate : null;
         }
 
         public async Task<bool> AddFilmAsync(Guid actorId, Guid filmId)
         {
-            bool isFilmAdded = await _repository.AddFilmAsync(actorId, filmId);
-            if (isFilmAdded)
-            {
-                return true;
-            }
-            return false;
+            return await _repository.AddFilmAsync(actorId, filmId) ? true : false;
         }
 
         public async Task<ActorDto> UpdateAsync(ActorDto actorToUpdate)
         {
-            bool isActorUpdated = await _repository.UpdateAsync(actorToUpdate);
-            if (isActorUpdated)
-            {
-                return actorToUpdate;
-            }
-            return null;
+            return await _repository.UpdateAsync(actorToUpdate) ? actorToUpdate : null;
         }
 
         public async Task<bool> RemoveFilmAsync(Guid actorId, Guid filmId)
@@ -67,13 +47,8 @@ namespace FilmoSearch.Services.Actor
         }
 
         public async Task<bool> DeleteAsync(Guid id)
-        {            
-            bool isActorDeleted = await _repository.DeleteAsync(id);
-            if (isActorDeleted)
-            {
-                return true;
-            }
-            return false;      
+        {
+            return await _repository.DeleteAsync(id) ? true : false;
         }
     }
 }
