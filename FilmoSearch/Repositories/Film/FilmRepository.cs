@@ -90,7 +90,7 @@ namespace FilmoSearch.Repositories.Film
         {
             try
             {
-                Models.Film film = await _context.Films.Include(a => a.Actors).FirstOrDefaultAsync(f => f.Id == filmId);
+                Models.Film? film = await _context.Films.Include(a => a.Actors).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Actor actorToAdd = film?.Actors.FirstOrDefault(a => a.Id == actorId);
                 film?.Actors.Add(actorToAdd);
                 await _context.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace FilmoSearch.Repositories.Film
         {
             try
             {
-                Models.Film film = await _context.Films.Include(x => x.Reviews).FirstOrDefaultAsync(f => f.Id == filmId);
+                Models.Film? film = await _context.Films.Include(x => x.Reviews).FirstOrDefaultAsync(f => f.Id == filmId);
                 Models.Review reviewToAdd = film?.Reviews.FirstOrDefault(r => r.Id == reviewId);
                 film?.Reviews.Add(reviewToAdd);
                 await _context.SaveChangesAsync();

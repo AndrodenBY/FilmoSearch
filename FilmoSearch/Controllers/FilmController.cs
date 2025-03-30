@@ -105,7 +105,7 @@ namespace FilmoSearch.Controllers
         public async Task<ActionResult> DeleteReviewAsync([FromRoute] Guid filmId, [FromRoute] Guid reviewId)
         {
             Log.Information($"RemoveFilmReview request received film with ID {filmId} and review with ID {reviewId}");
-            await _filmService.RemoveActorAsync(filmId, reviewId);
+            await _filmService.RemoveReviewAsync(filmId, reviewId);
             Log.Information($"RemoveFilmReview response: {reviewId} deleted from film");
             return Ok("Review Removed");
         }

@@ -30,11 +30,11 @@ namespace FilmoSearch.Controllers
             ActorDto? actor = await _actorService.GetByIdAsync(id);
             if (actor != null)
             {
-                Log.Information($"Actor found: {actor}");
+                Log.Information($"Actor found: {actor}"); // add to construction/ DI
                 return Ok(actor);   
             }
             Log.Warning($"Actor with ID {id} not found");
-            return Ok("Error");
+            return Ok("Error"); //return json
         }
 
         [HttpPost("AddActor")]
