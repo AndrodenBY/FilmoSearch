@@ -18,52 +18,27 @@ namespace FilmoSearch.Services.Review
 
         public async Task<ReviewDto> GetByIdAsync(Guid id)
         {
-            ReviewDto review = await _repository.GetByIdAsync(id);
-            if (review != null)
-            {
-                return review;
-            }
-            return null;
+            return await _repository.GetByIdAsync(id);
         }
 
         public async Task<ReviewDto> CreateAsync(ReviewDto reviewToCreate)
         {
-            bool isReviewCreated = await _repository.CreateAsync(reviewToCreate);
-            if (isReviewCreated)
-            {
-                return reviewToCreate;
-            }
-            return null;
+            return await _repository.CreateAsync(reviewToCreate) ? reviewToCreate : null;
         }
 
         public async Task<bool> AddToFilmAsync(ReviewDto reviewToCreate, Guid filmId)
         {
-            bool isAddedToFilm = await _repository.AddToFilmAsync(reviewToCreate, filmId);
-            if (isAddedToFilm)
-            {
-                return true;
-            }
-            return false;
+            return await _repository.AddToFilmAsync(reviewToCreate, filmId) ? true : false;
         }
 
         public async Task<ReviewDto> UpdateAsync(ReviewDto reviewToUpdate)
         {
-            bool isReviewUpdated = await _repository.UpdateAsync(reviewToUpdate);
-            if (isReviewUpdated)
-            {
-                return reviewToUpdate;
-            }
-            return null;
+            return await _repository.UpdateAsync(reviewToUpdate) ? reviewToUpdate : null;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            bool isReviewDeleted = await _repository.DeleteAsync(id);
-            if (isReviewDeleted)
-            {
-                return true;
-            }
-            return false;
+            return await _repository.DeleteAsync(id) ? true : false;
         }
     }
 }
