@@ -1,0 +1,6 @@
+﻿services:
+  filmosearch:
+    image: filmosearch
+    build:
+      context: .
+      dockerfile: FilmoSearch/Dockerfile
