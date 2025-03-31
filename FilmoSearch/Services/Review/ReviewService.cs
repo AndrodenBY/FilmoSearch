@@ -1,8 +1,5 @@
 ﻿using FilmoSearch.DTO;
-using FilmoSearch.Models;
 using FilmoSearch.Repositories.Review;
-using FilmoSearch.Services;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace FilmoSearch.Services.Review
 {
@@ -11,17 +8,17 @@ namespace FilmoSearch.Services.Review
         private readonly ReviewRepository _repository;
         public ReviewService(ReviewRepository repository) { _repository = repository; }
 
-        public async Task<IEnumerable<ReviewDto>> GetAllAsync()
+        public async Task<IEnumerable<ReviewDto>?> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
 
-        public async Task<ReviewDto> GetByIdAsync(Guid id)
+        public async Task<ReviewDto?> GetByIdAsync(Guid id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<ReviewDto> CreateAsync(ReviewDto reviewToCreate)
+        public async Task<ReviewDto?> CreateAsync(ReviewDto reviewToCreate)
         {
             return await _repository.CreateAsync(reviewToCreate) ? reviewToCreate : null;
         }
@@ -31,7 +28,7 @@ namespace FilmoSearch.Services.Review
             return await _repository.AddToFilmAsync(reviewToCreate, filmId) ? true : false;
         }
 
-        public async Task<ReviewDto> UpdateAsync(ReviewDto reviewToUpdate)
+        public async Task<ReviewDto?> UpdateAsync(ReviewDto reviewToUpdate)
         {
             return await _repository.UpdateAsync(reviewToUpdate) ? reviewToUpdate : null;
         }

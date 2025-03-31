@@ -8,17 +8,17 @@ namespace FilmoSearch.Services.Film
         private readonly FilmRepository _repository;
         public FilmService(FilmRepository repository) { _repository = repository; }
 
-        public async Task<IEnumerable<FilmDto>> GetAllAsync()
+        public async Task<IEnumerable<FilmDto>?> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
 
-        public async Task<FilmDto> GetByIdAsync(Guid id)
+        public async Task<FilmDto?> GetByIdAsync(Guid id)
         {
             return await _repository.GetByIdAsync(id); 
         }
 
-        public async Task<FilmDto> CreateAsync(FilmDto filmToCreate)
+        public async Task<FilmDto?> CreateAsync(FilmDto filmToCreate)
         {
             return await _repository.CreateAsync(filmToCreate) ? filmToCreate : null;
         }
@@ -33,7 +33,7 @@ namespace FilmoSearch.Services.Film
             return await _repository.AddReviewAsync(filmId, reviewId) ? true : false;
         }
 
-        public async Task<FilmDto> UpdateAsync(FilmDto filmToUpdate)
+        public async Task<FilmDto?> UpdateAsync(FilmDto filmToUpdate)
         {
             return await _repository.UpdateAsync(filmToUpdate) ? filmToUpdate : null;
         }

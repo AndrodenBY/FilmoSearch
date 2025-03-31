@@ -1,8 +1,6 @@
 ﻿using FilmoSearch.DTO;
 using FilmoSearch.Models;
-using FilmoSearch.Services.Actor;
 using FilmoSearch.Services.Film;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 

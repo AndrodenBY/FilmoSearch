@@ -1,8 +1,7 @@
 ﻿using FilmoSearch.DTO;
-using FilmoSearch.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Linq;
 
 namespace FilmoSearch.Repositories.Review
 {
@@ -11,7 +10,7 @@ namespace FilmoSearch.Repositories.Review
         private readonly ApplicationContext _context;
         public ReviewRepository(ApplicationContext context) { _context = context; }
 
-        public async Task<IEnumerable<ReviewDto>> GetAllAsync()
+        public async Task<IEnumerable<ReviewDto>?> GetAllAsync()
         {
             try
             {
@@ -30,7 +29,7 @@ namespace FilmoSearch.Repositories.Review
             }
         }
 
-        public async Task<ReviewDto> GetByIdAsync(Guid id)
+        public async Task<ReviewDto?> GetByIdAsync(Guid id)
         {
             try
             {

@@ -1,8 +1,7 @@
 ﻿using FilmoSearch.DTO;
-using FilmoSearch.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Linq;
 
 namespace FilmoSearch.Repositories.Actor
 {
@@ -11,7 +10,7 @@ namespace FilmoSearch.Repositories.Actor
         private readonly ApplicationContext _context;
         public ActorRepository(ApplicationContext context) { _context = context; }
 
-        public async Task<IEnumerable<ActorDto>> GetAllAsync()
+        public async Task<IEnumerable<ActorDto>?> GetAllAsync()
         {
             try
             {
@@ -29,7 +28,7 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
 
-        public async Task<ActorDto> GetByIdAsync(Guid id)
+        public async Task<ActorDto?> GetByIdAsync(Guid id)
         {
             try
             {
@@ -77,22 +76,22 @@ namespace FilmoSearch.Repositories.Actor
             }
         }
         
-        public async Task<bool> AddFilmAsync(Guid actorId, Guid filmId)
-        {
-            try
+            public async Task<bool> AddFilmAsync(Guid actorId, Guid filmId)
             {
-                Models.Actor actor = await _context.Actors.Include(f => f.Films).FirstOrDefaultAsync(a => a.Id == actorId);
-                Models.Film filmToAdd = actor?.Films.FirstOrDefault(f => f.Id == filmId);
-                actor?.Films.Add(filmToAdd);
-                await _context.SaveChangesAsync();
-                return true;
+                try
+                {
+                    Models.Actor actor = await _context.Actors.Include(f => f.Films).FirstOrDefaultAsync(a => a.Id == actorId);
+                    Models.Film filmToAdd = actor?.Films.FirstOrDefault(f => f.Id == filmId);
+                    actor?.Films.Add(filmToAdd);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    Log.Error(ex, $"An error occurred in AddFilm method: {ex.Message}");
+                    return false;
+                }
             }
-            catch(Exception ex)
-            {
-                Log.Error(ex, $"An error occurred in AddFilm method: {ex.Message}");
-                return false;
-            }
-        }
 
         public async Task<bool> UpdateAsync(ActorDto actorToUpdate)
         {

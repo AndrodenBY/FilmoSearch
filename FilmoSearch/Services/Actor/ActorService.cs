@@ -1,8 +1,5 @@
 ﻿using FilmoSearch.DTO;
 using FilmoSearch.Repositories.Actor;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FilmoSearch.Services.Actor
 {
@@ -11,17 +8,17 @@ namespace FilmoSearch.Services.Actor
         private readonly ActorRepository _repository;
         public ActorService(ActorRepository repository) { _repository = repository; }
 
-        public async Task<IEnumerable<ActorDto>> GetAllAsync()
+        public async Task<IEnumerable<ActorDto>?> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
 
-        public async Task<ActorDto> GetByIdAsync(Guid id)
+        public async Task<ActorDto?> GetByIdAsync(Guid id)
         {
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task<ActorDto> CreateAsync(ActorDto actorToCreate)
+        public async Task<ActorDto?> CreateAsync(ActorDto actorToCreate)
         {
             return await _repository.CreateAsync(actorToCreate) ? actorToCreate : null;
         }
@@ -31,19 +28,14 @@ namespace FilmoSearch.Services.Actor
             return await _repository.AddFilmAsync(actorId, filmId) ? true : false;
         }
 
-        public async Task<ActorDto> UpdateAsync(ActorDto actorToUpdate)
+        public async Task<ActorDto?> UpdateAsync(ActorDto actorToUpdate)
         {
             return await _repository.UpdateAsync(actorToUpdate) ? actorToUpdate : null;
         }
 
         public async Task<bool> RemoveFilmAsync(Guid actorId, Guid filmId)
         {
-            bool isFilmDeleted = await _repository.RemoveFilmAsync(actorId, filmId);
-            if (isFilmDeleted)
-            {
-                return true;
-            }
-            return false;
+            return await _repository.RemoveFilmAsync(actorId, filmId) ? true : false;
         }
 
         public async Task<bool> DeleteAsync(Guid id)

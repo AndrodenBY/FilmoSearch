@@ -1,10 +1,6 @@
 ﻿using FilmoSearch.DTO;
-using FilmoSearch.Models;
 using FilmoSearch.Services.Actor;
-using FilmoSearch.Services.Film;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace FilmoSearch.Controllers
@@ -14,7 +10,13 @@ namespace FilmoSearch.Controllers
     public class ActorController : ControllerBase
     {
         private readonly ActorService _actorService;
-        public ActorController(ActorService actorService) { _actorService = actorService; }
+        //private readonly Serilog _logger;
+
+        public ActorController(ActorService actorService/*, Serilog logger*/)
+        {
+            _actorService = actorService;
+            //_logger = logger;
+        }
 
         [HttpGet("GetActors")]
         public async Task<ActionResult<IEnumerable<ActorDto>>> GetAsync()
@@ -30,7 +32,7 @@ namespace FilmoSearch.Controllers
             ActorDto? actor = await _actorService.GetByIdAsync(id);
             if (actor != null)
             {
-                Log.Information($"Actor found: {actor}"); // add to construction/ DI
+                Log.Information($"Actor found: {actor}"); // add to contructor/ DI
                 return Ok(actor);   
             }
             Log.Warning($"Actor with ID {id} not found");

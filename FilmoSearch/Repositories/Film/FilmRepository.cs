@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System;
 using System.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FilmoSearch.Repositories.Film
 {
@@ -13,7 +11,7 @@ namespace FilmoSearch.Repositories.Film
         private readonly ApplicationContext _context;
         public FilmRepository(ApplicationContext context) { _context = context; }
 
-        public async Task<IEnumerable<FilmDto>> GetAllAsync()
+        public async Task<IEnumerable<FilmDto>?> GetAllAsync()
         {
             try
             {
@@ -32,7 +30,7 @@ namespace FilmoSearch.Repositories.Film
             }
         }
 
-        public async Task<FilmDto> GetByIdAsync([FromBody] Guid id)
+        public async Task<FilmDto?> GetByIdAsync([FromBody] Guid id)
         {
             try
             {
