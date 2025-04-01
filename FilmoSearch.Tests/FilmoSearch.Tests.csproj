@@ -30,8 +30,4 @@
     <ProjectReference Include="..\FilmoSearch\FilmoSearch.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\ReviewRepositoryTests\Methods\" />
-  </ItemGroup>
-
 </Project>
