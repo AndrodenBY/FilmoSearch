@@ -1,5 +1,3 @@
-using FilmoSearch.DTO;
-
 namespace FilmoSearch.Tests.Repositories.ActorRepositoryTests.Methods;
 
 public class CreateAsyncTests : ActorRepositoryTestBase

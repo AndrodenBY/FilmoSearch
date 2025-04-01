@@ -1,6 +1,3 @@
-using FilmoSearch.DTO;
-using FilmoSearch.Models;
-
 namespace FilmoSearch.Tests.Repositories.ActorRepositoryTests.Methods;
 
 public class GetByIdAsyncTests : ActorRepositoryTestBase

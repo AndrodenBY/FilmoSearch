@@ -1,1 +1,14 @@
 global using Xunit;
+global using FilmoSearch.DTO;
+global using FilmoSearch.Models;
+global using FilmoSearch.Repositories.Actor;
+global using FilmoSearch.Repositories.Review;
+global using FilmoSearch.Repositories.Film;
+global using FilmoSearch.Services.Film;
+global using Microsoft.AspNetCore.Routing;
+global using Microsoft.EntityFrameworkCore;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;

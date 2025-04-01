@@ -1,6 +1,3 @@
-using FilmoSearch.Models;
-using Microsoft.EntityFrameworkCore;
-
 namespace FilmoSearch.Tests.Repositories.ActorRepositoryTests.Methods;
 
 public class DeleteAsyncTests : ActorRepositoryTestBase

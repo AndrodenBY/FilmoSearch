@@ -1,7 +1,3 @@
-using FilmoSearch.Models;
-using FilmoSearch.DTO;
-using Microsoft.EntityFrameworkCore;
-
 namespace FilmoSearch.Tests.Repositories.FilmRepositoryTests.Methods;
 
 public class UpdateAsyncTests : FilmRepositoryTestBase

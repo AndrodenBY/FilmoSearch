@@ -1,14 +1,3 @@
-using FilmoSearch.DTO;
-using FilmoSearch.Models;
-using FilmoSearch.Repositories.Actor;
-using FilmoSearch.Repositories.Film;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FilmoSearch.Tests.Repositories.FilmRepositoryTests;
 
 public class FilmRepositoryTestBase

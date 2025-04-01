@@ -1,6 +1,3 @@
-using FilmoSearch.Repositories.Actor;
-using Microsoft.EntityFrameworkCore;
-
 namespace FilmoSearch.Tests.Repositories.ActorRepositoryTests;
 
 public abstract class ActorRepositoryTestBase

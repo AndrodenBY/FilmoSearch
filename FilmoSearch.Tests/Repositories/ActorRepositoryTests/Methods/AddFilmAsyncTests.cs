@@ -1,5 +1,3 @@
-using FilmoSearch.Models;
-
 namespace FilmoSearch.Tests.Repositories.ActorRepositoryTests.Methods;
 
 public class AddFilmAsyncTests : ActorRepositoryTestBase
