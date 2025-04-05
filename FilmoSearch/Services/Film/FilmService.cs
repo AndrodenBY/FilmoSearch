@@ -3,10 +3,10 @@ using FilmoSearch.Repositories.Film;
 
 namespace FilmoSearch.Services.Film
 {
-    public class FilmService : IFilmoSearchService<FilmDto>
+    public class FilmService : IFilmService
     {
-        private readonly FilmRepository _repository;
-        public FilmService(FilmRepository repository) { _repository = repository; }
+        private readonly IFilmRepository _repository;
+        public FilmService(IFilmRepository repository) { _repository = repository; }
 
         public async Task<IEnumerable<FilmDto>?> GetAllAsync()
         {

@@ -3,10 +3,10 @@ using FilmoSearch.Repositories.Review;
 
 namespace FilmoSearch.Services.Review
 {
-    public class ReviewService : IFilmoSearchService<ReviewDto>
+    public class ReviewService : IReviewService
     {
-        private readonly ReviewRepository _repository;
-        public ReviewService(ReviewRepository repository) { _repository = repository; }
+        private readonly IReviewRepository _repository;
+        public ReviewService(IReviewRepository repository) { _repository = repository; }
 
         public async Task<IEnumerable<ReviewDto>?> GetAllAsync()
         {

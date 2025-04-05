@@ -3,10 +3,10 @@ using FilmoSearch.Repositories.Actor;
 
 namespace FilmoSearch.Services.Actor
 {
-    public class ActorService: IFilmoSearchService<ActorDto>
+    public class ActorService: IActorService
     {
-        private readonly ActorRepository _repository;
-        public ActorService(ActorRepository repository) { _repository = repository; }
+        private readonly IActorRepository _repository;
+        public ActorService(IActorRepository repository) { _repository = repository; }
 
         public async Task<IEnumerable<ActorDto>?> GetAllAsync()
         {
