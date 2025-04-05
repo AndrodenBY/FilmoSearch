@@ -9,10 +9,10 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class ActorController : ControllerBase
     {
-        private readonly ActorService _actorService;
+        private readonly IActorService _actorService;
         //private readonly Serilog _logger;
 
-        public ActorController(ActorService actorService/*, Serilog logger*/)
+        public ActorController(IActorService actorService/*, Serilog logger*/)
         {
             _actorService = actorService;
             //_logger = logger;

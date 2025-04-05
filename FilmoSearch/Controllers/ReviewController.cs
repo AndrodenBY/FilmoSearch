@@ -9,8 +9,8 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private readonly ReviewService _reviewService;
-        public ReviewController(ReviewService reviewService) { _reviewService = reviewService; }
+        private readonly IReviewService _reviewService;
+        public ReviewController(IReviewService reviewService) { _reviewService = reviewService; }
 
         [HttpGet("GetReviews")]
         public async Task<ActionResult<IEnumerable<ReviewDto>>> GetAsync()

@@ -10,8 +10,8 @@ namespace FilmoSearch.Controllers
     [ApiController]
     public class FilmController : ControllerBase
     {
-        private readonly FilmService _filmService;        
-        public FilmController(FilmService filmService) { _filmService = filmService; }
+        private readonly IFilmService _filmService;        
+        public FilmController(IFilmService filmService) { _filmService = filmService; }
 
         [HttpGet("GetFilms")]
         public async Task<ActionResult<IEnumerable<Film>>> GetAsync()
