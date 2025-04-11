@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace FilmoSearch.Models
+﻿namespace FilmoSearch.Models
 {
     public class Actor
     {
