@@ -16,18 +16,18 @@ using Serilog.Formatting.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddMvc();
 
-builder.Services.AddScoped<ActorRepository>();
-builder.Services.AddScoped<ActorService>();
-builder.Services.AddScoped<FilmRepository>();
-builder.Services.AddScoped<FilmService>();
-builder.Services.AddScoped<ReviewRepository>();
-builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
+builder.Services.AddScoped<IActorService, ActorService>();
+builder.Services.AddScoped<IFilmRepository, FilmRepository>();
+builder.Services.AddScoped<IFilmService, FilmService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 Log.Logger = new LoggerConfiguration()                
                 .WriteTo.Console()                
