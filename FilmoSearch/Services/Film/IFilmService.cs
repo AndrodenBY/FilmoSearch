@@ -2,7 +2,7 @@ using FilmoSearch.DTO;
 
 namespace FilmoSearch.Services.Film;
 
-public interface IFilmService : IFilmoSearchService<FilmDto>
+public interface IFilmService : IService<FilmDto>
 {
     Task<bool> AddActorAsync(Guid filmId, Guid actorId);
     Task<bool> AddReviewAsync(Guid filmId, Guid reviewId);

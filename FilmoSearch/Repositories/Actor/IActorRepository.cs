@@ -2,7 +2,7 @@ using FilmoSearch.DTO;
 
 namespace FilmoSearch.Repositories.Actor;
 
-public interface IActorRepository : IFilmoSearchRepository<ActorDto>
+public interface IActorRepository : IRepository<ActorDto>
 {
     Task<bool> AddFilmAsync(Guid actorId, Guid filmId);
     Task<bool> RemoveFilmAsync(Guid actorId, Guid filmId);
